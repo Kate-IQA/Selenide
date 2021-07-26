@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/o2apak0l9kiv3l5l?svg=true)](https://ci.appveyor.com/project/Kate-IQA/selenide)
