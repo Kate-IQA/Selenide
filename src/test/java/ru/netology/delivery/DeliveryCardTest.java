@@ -35,7 +35,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldTestCorrectForm() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
@@ -48,7 +48,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldTestWrongCity() {
-        $("[data-test-id=city] .input__control").setValue("Москва").click();
+        $("[data-test-id=city] .input__control").setValue("Москоу").click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
@@ -59,7 +59,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldTestWrongDate() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().sendKeys(Keys.BACK_SPACE);
         $("[data-test-id=date] [type='tel']").setValue(dayOfMeeting(1));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
@@ -71,7 +71,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldTestWrongName() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Degtiareva Ekaterina");
         $("[data-test-id=phone] input").setValue("+79139469364");
@@ -82,7 +82,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldTestWrongPhone() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("89139463936");
@@ -93,7 +93,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldNotCheckBox() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
@@ -104,7 +104,7 @@ public class DeliveryCardTest {
     @Test
     void shouldTestCityMenu() {
         $("[data-test-id=city] .input__control").setValue("Са");
-        $$(".menu-item").find(Condition.exactText("Барселона")).click();
+        $$(".menu-item").find(Condition.exactText("Москва")).click();
         $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
@@ -116,7 +116,7 @@ public class DeliveryCardTest {
 
     @Test
     void shouldAgainTestCalendar() {
-        $("[data-test-id=city] .input__control").setValue("Барселона").click();
+        $("[data-test-id=city] .input__control").setValue("Москва").click();
         $(".icon_name_calendar").click();
         $$("[role='gridcell']").find(Condition.exactText(dayAfterWeek(7).replaceFirst ("0", ""))).click();
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
