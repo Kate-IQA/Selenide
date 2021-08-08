@@ -15,19 +15,11 @@ import static com.codeborne.selenide.Selenide.*;
 public class DeliveryCardTest {
     int days;
 
-    public String dayOfMeeting(int days) {
+    public String generateDate(int days, String pattern) {
         LocalDateTime today = LocalDateTime.now().plusDays(days);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String minDate = dateFormat.format(today);
-        return minDate;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
+        return dateFormat.format(today);
     }
-    public String dayAfterWeek(int days) {
-        LocalDateTime oggi = LocalDateTime.now().plusDays(days);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd");
-        String weekDate = dtf.format(oggi);
-        return weekDate;
-    }
-
     @BeforeEach
     void setUp() {
         open("http://localhost:9999");
@@ -36,20 +28,20 @@ public class DeliveryCardTest {
     @Test
     void shouldTestCorrectForm() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
         $(Selectors.withText("Забронировать")).click();
         $(".notification__title").shouldBe(Condition.visible, Duration.ofSeconds(15));
-        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + dayOfMeeting(3)));
+        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + generateDate(3,"dd.MM.yyyy")));
 
     }
 
     @Test
     void shouldTestWrongCity() {
         $("[data-test-id=city] .input__control").setValue("Москоу").click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
@@ -61,7 +53,7 @@ public class DeliveryCardTest {
     void shouldTestWrongDate() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
         $("[data-test-id=date] [type='tel']").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] [type='tel']").setValue(dayOfMeeting(1));
+        $("[data-test-id=date] [type='tel']").setValue(generateDate(1,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
@@ -72,7 +64,7 @@ public class DeliveryCardTest {
     @Test
     void shouldTestWrongName() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Degtiareva Ekaterina");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
@@ -83,7 +75,7 @@ public class DeliveryCardTest {
     @Test
     void shouldTestWrongPhone() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("89139463936");
         $("[data-test-id=agreement]").click();
@@ -94,7 +86,7 @@ public class DeliveryCardTest {
     @Test
     void shouldNotCheckBox() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $(Selectors.withText("Забронировать")).click();
@@ -105,27 +97,26 @@ public class DeliveryCardTest {
     void shouldTestCityMenu() {
         $("[data-test-id=city] .input__control").setValue("Са");
         $$(".menu-item").find(Condition.exactText("Москва")).click();
-        $("[data-test-id=date] [type='tel']").doubleClick().setValue(dayOfMeeting(3));
+        $("[data-test-id=date] [type='tel']").doubleClick().setValue(generateDate(3,"dd.MM.yyyy"));
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
         $(Selectors.withText("Забронировать")).click();
         $(".notification__title").shouldBe(Condition.visible, Duration.ofSeconds(15));
-        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + dayOfMeeting(3)));
+        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + generateDate(3,"dd.MM.yyyy")));
     }
 
     @Test
     void shouldAgainTestCalendar() {
         $("[data-test-id=city] .input__control").setValue("Москва").click();
         $(".icon_name_calendar").click();
-        $$("[role='gridcell']").find(Condition.exactText(dayAfterWeek(7).replaceFirst ("0", ""))).click();
+        $$("[role='gridcell']").find(Condition.exactText(generateDate(7,"dd").replaceFirst("0", ""))).click();
         $("[data-test-id=name] [type='text']").setValue("Дегтярева Екатерина");
         $("[data-test-id=phone] input").setValue("+79139469364");
         $("[data-test-id=agreement]").click();
         $(Selectors.withText("Забронировать")).click();
         $(".notification__title").shouldBe(Condition.visible, Duration.ofSeconds(15));
-        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + dayOfMeeting(7)));
-
+        $(".notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + generateDate(7,"dd.MM.yyyy")));
 
 
     }
